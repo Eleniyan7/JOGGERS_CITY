@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jogger City — Premium Joggers</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --green: #1D9E75;
+      --green-light: #E1F5EE;
+      --green-dark: #0F6E56;
+      --cream: #F8F6F1;
+      --black: #111110;
+      --gray: #888780;
+      --border: rgba(17,17,16,0.1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--black);
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--cream);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.25rem 5vw;
+    }
+
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: var(--black);
+      text-decoration: none;
+    }
+    .logo span { color: var(--green); }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--gray);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--black); }
+
+    .nav-cta {
+      background: var(--black);
+      color: var(--cream);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      padding: 10px 22px;
+      border-radius: 99px;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+    .nav-cta:hover { background: var(--green-dark); transform: translateY(-1px); }
+
+    /* ── HERO ── */
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+      padding: 6rem 5vw 5rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .hero-text { }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--green-light);
+      color: var(--green-dark);
+      font-size: 12px;
+      font-weight: 500;
+      padding: 5px 14px;
+      border-radius: 99px;
+      margin-bottom: 1.75rem;
+      letter-spacing: 0.5px;
+    }
+    .hero-badge::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--green);
+    }
+
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(38px, 5vw, 60px);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -1.5px;
+      color: var(--black);
+      margin-bottom: 1.5rem;
+    }
+    .hero h1 em {
+      font-style: italic;
+      color: var(--green);
+    }
+
+    .hero p {
+      font-size: 17px;
+      font-weight: 300;
+      color: var(--gray);
+      line-height: 1.7;
+      margin-bottom: 2.5rem;
+      max-width: 400px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: var(--black);
+      color: var(--cream);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 500;
+      padding: 14px 30px;
+      border-radius: 99px;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+    .btn-primary:hover { background: var(--green-dark); transform: translateY(-1px); }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--black);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 400;
+      padding: 14px 30px;
+      border-radius: 99px;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: border-color 0.2s, transform 0.1s;
+    }
+    .btn-ghost:hover { border-color: var(--black); transform: translateY(-1px); }
+
+    /* Hero visual */
+    .hero-visual {
+      position: relative;
+      height: 480px;
+    }
+
+    .hero-card-stack {
+      position: relative;
+      height: 100%;
+    }
+
+    .product-card {
+      position: absolute;
+      border-radius: 20px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 1.25rem;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .product-card:hover { transform: translateY(-6px) !important; }
+
+    .product-card-1 {
+      width: 200px; height: 280px;
+      background: #D6EEE4;
+      top: 0; left: 10%;
+      transform: rotate(-4deg);
+      z-index: 1;
+    }
+    .product-card-2 {
+      width: 220px; height: 300px;
+      background: #E8E4DC;
+      top: 50px; left: 35%;
+      transform: rotate(2deg);
+      z-index: 3;
+    }
+    .product-card-3 {
+      width: 190px; height: 260px;
+      background: #D0DFF0;
+      top: 20px; right: 5%;
+      transform: rotate(5deg);
+      z-index: 2;
+    }
+
+    .card-swatch {
+      width: 100%;
+      flex: 1;
+      border-radius: 12px;
+      margin-bottom: 12px;
+      position: relative;
+      overflow: hidden;
+    }
+    .card-swatch-lines {
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        -45deg,
+        transparent,
+        transparent 8px,
+        rgba(255,255,255,0.25) 8px,
+        rgba(255,255,255,0.25) 9px
+      );
+    }
+
+    .card-label { }
+    .card-label p {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--black);
+    }
+    .card-label span {
+      font-size: 12px;
+      color: var(--gray);
+    }
+
+    /* Floating badge */
+    .float-badge {
+      position: absolute;
+      background: var(--black);
+      color: var(--cream);
+      font-size: 12px;
+      font-weight: 500;
+      padding: 8px 14px;
+      border-radius: 99px;
+      white-space: nowrap;
+      animation: float 3s ease-in-out infinite;
+    }
+    .float-badge-1 { bottom: 60px; left: 0; animation-delay: 0s; }
+    .float-badge-2 { bottom: 0; right: 10%; animation-delay: 1s; }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    /* ── MARQUEE ── */
+    .marquee-wrap {
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      background: var(--black);
+      padding: 14px 0;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    .marquee {
+      display: inline-flex;
+      gap: 3rem;
+      animation: marquee 18s linear infinite;
+    }
+    .marquee span {
+      font-family: 'Playfair Display', serif;
+      font-size: 14px;
+      font-style: italic;
+      color: var(--cream);
+      opacity: 0.6;
+    }
+    .marquee .dot {
+      font-style: normal;
+      color: var(--green);
+      opacity: 1;
+      font-family: 'DM Sans', sans-serif;
+    }
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    /* ── FEATURES ── */
+    .features {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 6rem 5vw;
+    }
+
+    .section-eyebrow {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 1rem;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(28px, 4vw, 42px);
+      font-weight: 700;
+      letter-spacing: -1px;
+      line-height: 1.15;
+      color: var(--black);
+      margin-bottom: 1rem;
+    }
+
+    .section-sub {
+      font-size: 16px;
+      font-weight: 300;
+      color: var(--gray);
+      max-width: 480px;
+      line-height: 1.7;
+      margin-bottom: 3.5rem;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+    }
+
+    .feature-cell {
+      background: var(--cream);
+      padding: 2rem 1.75rem;
+      transition: background 0.2s;
+    }
+    .feature-cell:hover { background: var(--green-light); }
+
+    .feature-icon-wrap {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: var(--green-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.25rem;
+    }
+
+    .feature-cell h3 {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--black);
+      margin-bottom: 0.6rem;
+    }
+
+    .feature-cell p {
+      font-size: 14px;
+      font-weight: 300;
+      color: var(--gray);
+      line-height: 1.6;
+    }
+
+    /* ── PRICING ── */
+    .pricing {
+      background: var(--black);
+      padding: 6rem 5vw;
+    }
+
+    .pricing-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .pricing .section-eyebrow { color: var(--green); }
+    .pricing .section-title { color: var(--cream); }
+    .pricing .section-sub { color: rgba(248,246,241,0.5); }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .pricing-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 20px;
+      padding: 2rem;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+    .pricing-card:hover { transform: translateY(-4px); }
+
+    .pricing-card.featured {
+      background: var(--green-dark);
+      border-color: var(--green);
+    }
+
+    .pricing-pill {
+      display: inline-block;
+      background: var(--green-light);
+      color: var(--green-dark);
+      font-size: 11px;
+      font-weight: 500;
+      padding: 4px 12px;
+      border-radius: 99px;
+      margin-bottom: 1.25rem;
+    }
+
+    .pricing-card h3 {
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--cream);
+      margin-bottom: 0.5rem;
+    }
+
+    .pricing-price {
+      font-family: 'Playfair Display', serif;
+      font-size: 36px;
+      font-weight: 700;
+      color: var(--cream);
+      margin: 1rem 0 0.25rem;
+      letter-spacing: -1px;
+    }
+
+    .pricing-per {
+      font-size: 13px;
+      color: rgba(248,246,241,0.4);
+      margin-bottom: 1.75rem;
+    }
+    .pricing-card.featured .pricing-per { color: rgba(248,246,241,0.6); }
+
+    .pricing-divider {
+      border: none;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      margin-bottom: 1.5rem;
+    }
+    .pricing-card.featured .pricing-divider { border-color: rgba(255,255,255,0.2); }
+
+    .pricing-features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 2rem;
+    }
+
+    .pricing-features li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      font-weight: 300;
+      color: rgba(248,246,241,0.7);
+    }
+
+    .pricing-check {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.1);
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .pricing-card.featured .pricing-check { background: rgba(255,255,255,0.2); }
+    .pricing-check::after {
+      content: '';
+      width: 5px;
+      height: 3px;
+      border-left: 1.5px solid var(--green-light);
+      border-bottom: 1.5px solid var(--green-light);
+      transform: rotate(-45deg) translate(0.5px, -0.5px);
+    }
+
+    .pricing-btn {
+      width: 100%;
+      padding: 13px;
+      border-radius: 99px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      border: 1px solid rgba(255,255,255,0.2);
+      background: transparent;
+      color: var(--cream);
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .pricing-btn:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.4); }
+    .pricing-btn.featured-btn {
+      background: var(--cream);
+      color: var(--black);
+      border-color: transparent;
+    }
+    .pricing-btn.featured-btn:hover { background: var(--green-light); }
+
+    /* ── WAITLIST ── */
+    .waitlist {
+      padding: 7rem 5vw;
+      max-width: 640px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .waitlist .section-title { margin-bottom: 1rem; }
+    .waitlist .section-sub { max-width: 100%; margin-bottom: 2.5rem; margin-left: auto; margin-right: auto; }
+
+    .waitlist-form {
+      display: flex;
+      gap: 10px;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 99px;
+      padding: 6px 6px 6px 22px;
+      max-width: 440px;
+      margin: 0 auto;
+    }
+
+    .waitlist-form input {
+      flex: 1;
+      border: none;
+      outline: none;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      background: transparent;
+      color: var(--black);
+    }
+    .waitlist-form input::placeholder { color: var(--gray); }
+
+    .waitlist-form button {
+      background: var(--black);
+      color: var(--cream);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      padding: 10px 22px;
+      border-radius: 99px;
+      border: none;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.2s;
+    }
+    .waitlist-form button:hover { background: var(--green-dark); }
+
+    .waitlist-note {
+      font-size: 12px;
+      color: var(--gray);
+      margin-top: 1rem;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem 5vw;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    footer p {
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--gray);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+    .footer-links a {
+      font-size: 13px;
+      color: var(--gray);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--black); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-text > * {
+      animation: fadeUp 0.6s ease both;
+    }
+    .hero-badge { animation-delay: 0.1s; }
+    .hero h1    { animation-delay: 0.2s; }
+    .hero p     { animation-delay: 0.3s; }
+    .hero-actions { animation-delay: 0.4s; }
+    .hero-visual { animation: fadeUp 0.8s 0.3s ease both; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .hero {
+        grid-template-columns: 1fr;
+        padding: 4rem 5vw 3rem;
+      }
+      .hero-visual { height: 300px; }
+      .product-card-3 { display: none; }
+      .features-grid { grid-template-columns: 1fr 1fr; }
+      .pricing-grid { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="logo">Jogger<span>City</span></a>
+    <ul class="nav-links">
+      <li><a href="#features">Shop</a></li>
+      <li><a href="#features">Collections</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#waitlist">About</a></li>
+    </ul>
+    <button class="nav-cta" onclick="document.querySelector('#waitlist input').focus()">Shop now</button>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-text">
+      <div class="hero-badge">New 2025 collection dropping soon</div>
+      <h1>Comfort you can <em>move</em> in, all day long</h1>
+      <p>Premium joggers built for the streets, the gym, and everywhere in between. Soft fabrics, clean cuts, built to last.</p>
+      <div class="hero-actions">
+        <button class="btn-primary" onclick="document.getElementById('pricing').scrollIntoView({behavior:'smooth'})">Shop the collection</button>
+        <button class="btn-ghost" onclick="document.getElementById('features').scrollIntoView({behavior:'smooth'})">View lookbook</button>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="hero-card-stack">
+        <div class="product-card product-card-1">
+          <div class="card-swatch" style="background:#A8D5C0;">
+            <div class="card-swatch-lines"></div>
+          </div>
+          <div class="card-label">
+            <p>Classic Fit</p>
+            <span>₦18,500</span>
+          </div>
+        </div>
+        <div class="product-card product-card-2">
+          <div class="card-swatch" style="background:#C8C2B4;">
+            <div class="card-swatch-lines"></div>
+          </div>
+          <div class="card-label">
+            <p>Tapered Slim</p>
+            <span>₦21,000</span>
+          </div>
+        </div>
+        <div class="product-card product-card-3">
+          <div class="card-swatch" style="background:#A8C0D8;">
+            <div class="card-swatch-lines"></div>
+          </div>
+          <div class="card-label">
+            <p>Wide Leg</p>
+            <span>₦19,500</span>
+          </div>
+        </div>
+        <div class="float-badge float-badge-1">✦ Free delivery over ₦15k</div>
+        <div class="float-badge float-badge-2">✦ 8 colours available</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee-wrap">
+    <div class="marquee">
+      <span>Premium Quality</span><span class="dot">✦</span>
+      <span>Street Ready</span><span class="dot">✦</span>
+      <span>All Day Comfort</span><span class="dot">✦</span>
+      <span>Sizes XS–4XL</span><span class="dot">✦</span>
+      <span>Free Delivery</span><span class="dot">✦</span>
+      <span>Made to Last</span><span class="dot">✦</span>
+      <span>Premium Quality</span><span class="dot">✦</span>
+      <span>Street Ready</span><span class="dot">✦</span>
+      <span>All Day Comfort</span><span class="dot">✦</span>
+      <span>Sizes XS–4XL</span><span class="dot">✦</span>
+      <span>Free Delivery</span><span class="dot">✦</span>
+      <span>Made to Last</span><span class="dot">✦</span>
+    </div>
+  </div>
+
+  <!-- FEATURES -->
+  <section class="features" id="features">
+    <div class="section-eyebrow">Why Jogger City</div>
+    <h2 class="section-title">Made different,<br>worn better</h2>
+    <p class="section-sub">Every pair is designed with one goal: to feel as good on day 100 as on day one.</p>
+    <div class="features-grid">
+      <div class="feature-cell">
+        <div class="feature-icon-wrap">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+            <circle cx="9" cy="9" r="7" stroke="#0F6E56" stroke-width="1.5"/>
+            <path d="M6 9l2 2 4-4" stroke="#0F6E56" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h3>Premium fabric</h3>
+        <p>Breathable cotton-blend that stays soft after every wash, season after season.</p>
+      </div>
+      <div class="feature-cell">
+        <div class="feature-icon-wrap">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+            <path d="M9 2l2 5h5l-4 3 1.5 5L9 12l-4.5 3L6 10 2 7h5L9 2z" stroke="#0F6E56" stroke-width="1.5" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h3>Perfect fit range</h3>
+        <p>Sizes XS–4XL across three cuts — slim, classic, and wide leg.</p>
+      </div>
+      <div class="feature-cell">
+        <div class="feature-icon-wrap">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+            <rect x="2" y="5" width="14" height="10" rx="2" stroke="#0F6E56" stroke-width="1.5"/>
+            <path d="M6 5V4a1 1 0 011-1h4a1 1 0 011 1v1" stroke="#0F6E56" stroke-width="1.5"/>
+            <path d="M6 10h6" stroke="#0F6E56" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3>Street-ready style</h3>
+        <p>Clean minimal design that pairs with everything from hoodies to button-downs.</p>
+      </div>
+      <div class="feature-cell">
+        <div class="feature-icon-wrap">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+            <path d="M9 2C5.13 2 2 5.13 2 9s3.13 7 7 7 7-3.13 7-7-3.13-7-7-7z" stroke="#0F6E56" stroke-width="1.5"/>
+            <path d="M9 5v5l3 2" stroke="#0F6E56" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h3>Free delivery</h3>
+        <p>Free shipping nationwide on all orders over ₦15,000.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section class="pricing" id="pricing">
+    <div class="pricing-inner">
+      <div class="section-eyebrow">Pricing</div>
+      <h2 class="section-title">Simple, honest pricing</h2>
+      <p class="section-sub">Every style, every cut — no hidden fees. Just quality joggers at a fair price.</p>
+      <div class="pricing-grid">
+        <div class="pricing-card">
+          <h3>Essentials</h3>
+          <div class="pricing-price">₦16,500</div>
+          <div class="pricing-per">per pair</div>
+          <hr class="pricing-divider"/>
+          <ul class="pricing-features">
+            <li><span class="pricing-check"></span> Classic fit</li>
+            <li><span class="pricing-check"></span> 3 colours</li>
+            <li><span class="pricing-check"></span> Cotton blend</li>
+            <li><span class="pricing-check"></span> Standard delivery</li>
+          </ul>
+          <button class="pricing-btn">Shop essentials</button>
+        </div>
+        <div class="pricing-card featured">
+          <div class="pricing-pill">Most popular</div>
+          <h3>Signature</h3>
+          <div class="pricing-price">₦21,000</div>
+          <div class="pricing-per">per pair</div>
+          <hr class="pricing-divider"/>
+          <ul class="pricing-features">
+            <li><span class="pricing-check"></span> All 3 cuts</li>
+            <li><span class="pricing-check"></span> 8 colours</li>
+            <li><span class="pricing-check"></span> Premium fabric</li>
+            <li><span class="pricing-check"></span> Free delivery</li>
+          </ul>
+          <button class="pricing-btn featured-btn">Shop signature</button>
+        </div>
+        <div class="pricing-card">
+          <h3>Bundle</h3>
+          <div class="pricing-price">₦55,000</div>
+          <div class="pricing-per">3 pairs — save ₦8,000</div>
+          <hr class="pricing-divider"/>
+          <ul class="pricing-features">
+            <li><span class="pricing-check"></span> Mix & match styles</li>
+            <li><span class="pricing-check"></span> All colours</li>
+            <li><span class="pricing-check"></span> Premium fabric</li>
+            <li><span class="pricing-check"></span> Express delivery</li>
+          </ul>
+          <button class="pricing-btn">Shop bundle</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WAITLIST -->
+  <section class="waitlist" id="waitlist">
+    <div class="section-eyebrow" style="text-align:center;">Early access</div>
+    <h2 class="section-title">Be first to<br>the drop</h2>
+    <p class="section-sub">Join the waitlist and get early access to new collections, restocks, and exclusive deals.</p>
+    <div class="waitlist-form">
+      <input type="email" placeholder="Enter your email address" />
+      <button onclick="handleWaitlist(event)">Join waitlist</button>
+    </div>
+    <p class="waitlist-note">No spam, ever. Unsubscribe anytime.</p>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <a href="#" class="logo">Jogger<span>City</span></a>
+    <ul class="footer-links">
+      <li><a href="#">Shop</a></li>
+      <li><a href="#">About</a></li>
+      <li><a href="#">Contact</a></li>
+      <li><a href="#">Instagram</a></li>
+    </ul>
+    <p>© 2025 Jogger City. All rights reserved.</p>
+  </footer>
+
+  <script>
+    function handleWaitlist(e) {
+      const btn = e.target;
+      const input = btn.previousElementSibling;
+      if (!input.value || !input.value.includes('@')) {
+        input.style.outline = '2px solid #E24B4A';
+        setTimeout(() => input.style.outline = '', 1500);
+        return;
+      }
+      btn.textContent = 'You\'re in! ✦';
+      btn.style.background = '#1D9E75';
+      input.value = '';
+      input.placeholder = 'Thanks for joining!';
+    }
+  </script>
+
+</body>
+</html>
